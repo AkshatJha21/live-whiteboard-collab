@@ -58,7 +58,7 @@ export const OrgSidebar = () => {
                 <Button variant={favourites ? "ghost" : "secondary"}  asChild size="lg" className="font-normal justify-start px-2 w-full">
                     <Link href="/">
                         <LayoutDashboard className="h-4 w-4 mr-2"/>
-                        Team Boards
+                        Team Labs
                     </Link>
                 </Button>
             </div>
@@ -69,7 +69,7 @@ export const OrgSidebar = () => {
                         query: { favourites: true }
                     }}>
                         <Star className="h-4 w-4 mr-2"/>
-                        Favourite Boards
+                        Favourite Labs
                     </Link>
                 </Button>
             </div>
