@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { api } from '@/convex/_generated/api';
 import { useOrganization } from '@clerk/nextjs';
 import { useApiMutation } from '@/hooks/use-api-mutation';
+import { toast } from 'sonner';
 
 const EmptyLabs = () => {
     const { organization } = useOrganization();
@@ -17,7 +18,9 @@ const EmptyLabs = () => {
         mutate({
             orgId: organization.id, 
             title: "Untitled"
-        })
+        }).then((id) => {
+            toast.success("Lab created");
+        }).catch(() => toast.error("Something went wrong"));
     }
 
   return (
