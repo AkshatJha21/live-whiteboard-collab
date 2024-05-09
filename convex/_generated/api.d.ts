@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as lab from "../lab.js";
+import type * as labs from "../labs.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -26,6 +27,7 @@ import type * as lab from "../lab.js";
  */
 declare const fullApi: ApiFromModules<{
   lab: typeof lab;
+  labs: typeof labs;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
