@@ -1,5 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import Overlay from "./overlay";
+import { formatDistanceToNow } from "date-fns";
+import { useAuth } from "@clerk/nextjs";
+import Footer from "./footer";
+
 interface LabCardProps {
     id: string;
     title: string;
@@ -21,8 +28,34 @@ const LabCard = ({
     orgId,
     isFavourite
 }: LabCardProps) => {
+    const { userId } = useAuth();
+    const authorLabel = userId === authorId ? "You" : authorName;
+    const createdAtLabel = formatDistanceToNow(createdAt, {
+        addSuffix: true
+    })
+
   return (
-    <div>LabCard</div>
+    <Link href={`/lab/${id}`}>
+        <div className="group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden">
+            <div className="relative flex-1 bg-zinc-50">
+                <Image 
+                    src={imageUrl}
+                    alt={title}
+                    fill
+                    className="object-fit"
+                />
+                <Overlay />
+            </div>
+            <Footer 
+                isFavourite={isFavourite}
+                title={title}
+                authorLabel={authorLabel}
+                createdAtLabel={createdAtLabel}
+                onClick={() => {}}
+                disabled={false}
+            />
+        </div>
+    </Link>
   )
 }
 
