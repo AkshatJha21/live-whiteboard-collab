@@ -6,6 +6,7 @@ import Overlay from "./overlay";
 import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "@clerk/nextjs";
 import Footer from "./footer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface LabCardProps {
     id: string;
@@ -57,6 +58,14 @@ const LabCard = ({
         </div>
     </Link>
   )
+};
+
+LabCard.Skeleton = function LabCardSkeleton() {
+    return (
+        <div className="aspect-[100/127] rounded-lg overflow-hidden">
+            <Skeleton className="h-full w-full"/>
+        </div>
+    )
 }
 
 export default LabCard
