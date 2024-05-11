@@ -38,4 +38,17 @@ export const create = mutation({
 
         return lab;
     }
+});
+
+export const remove = mutation({
+    args: { id: v.id("labs") },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity) {
+            throw new Error("Unauthorized");
+        }
+
+        await ctx.db.delete(args.id);
+    }
 })
