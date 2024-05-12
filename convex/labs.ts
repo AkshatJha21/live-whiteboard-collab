@@ -12,11 +12,29 @@ export const get = query({
             throw new Error('Unauthorized');
         }
 
-        const boards = await ctx.db.query("labs")
+        const labs = await ctx.db.query("labs")
             .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
             .order("desc")
             .collect();
 
-        return boards;
+        const labsWithFavRelations = labs.map((lab) => {
+            return ctx.db
+                .query("userFavourites")
+                .withIndex("by_user_lab", (q) => 
+                    q
+                    .eq("userId", identity.subject)
+                    .eq("labId", lab._id)
+                ).unique()
+                .then((fav) => {
+                    return {
+                        ...lab,
+                        isFavourite: !!fav,
+                    };
+                });
+        });
+
+        const labsWithFavBoolean = Promise.all(labsWithFavRelations);
+
+        return labsWithFavBoolean;
     },
 });

@@ -121,7 +121,7 @@ export const favourite = mutation({
 })
 
 export const removeFavourite = mutation({
-    args: { id: v.id("labs"), orgId: v.string() },
+    args: { id: v.id("labs") },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
 
