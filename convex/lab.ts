@@ -79,3 +79,78 @@ export const update = mutation({
         return lab;
     }
 })
+
+export const favourite = mutation({
+    args: { id: v.id("labs"), orgId: v.string() },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if (!identity) {
+            throw new Error("Unauthorized");
+        }
+
+        const lab = await ctx.db.get(args.id);
+
+        if (!lab) {
+            throw new Error("Lab not found");
+        }
+
+        const userId = identity.subject;
+
+        const existingFavourite = await ctx.db
+            .query("userFavourites")
+            .withIndex("by_user_lab_org", (q) => 
+                q
+                .eq("userId", userId)
+                .eq("labId", lab._id)
+                .eq("orgId", args.orgId)
+            ).unique();
+        
+        if (existingFavourite) {
+            throw new Error("Lab is already in favourites");
+        }
+
+        await ctx.db.insert("userFavourites", {
+            userId,
+            labId: lab._id,
+            orgId: args.orgId
+        });
+
+        return lab;
+    },
+})
+
+export const removeFavourite = mutation({
+    args: { id: v.id("labs"), orgId: v.string() },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if (!identity) {
+            throw new Error("Unauthorized");
+        }
+
+        const lab = await ctx.db.get(args.id);
+
+        if (!lab) {
+            throw new Error("Lab not found");
+        }
+
+        const userId = identity.subject;
+
+        const existingFavourite = await ctx.db
+            .query("userFavourites")
+            .withIndex("by_user_lab", (q) => 
+                q
+                .eq("userId", userId)
+                .eq("labId", lab._id)
+            ).unique();
+        
+        if (!existingFavourite) {
+            throw new Error("Lab not in favourites");
+        }
+
+        await ctx.db.delete(existingFavourite._id);
+
+        return lab;
+    },
+})

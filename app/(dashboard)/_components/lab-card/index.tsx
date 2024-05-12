@@ -9,6 +9,9 @@ import Footer from "./footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Actions } from "@/components/actions";
 import { MoreHorizontal } from "lucide-react";
+import { useApiMutation } from "@/hooks/use-api-mutation";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 interface LabCardProps {
     id: string;
@@ -36,6 +39,19 @@ const LabCard = ({
     const createdAtLabel = formatDistanceToNow(createdAt, {
         addSuffix: true
     })
+
+    const { mutate: onFavourite, pending: pendingFavourite } = useApiMutation(api.lab.favourite);
+    const { mutate: onRemoveFav, pending: pendingRemoveFav } = useApiMutation(api.lab.removeFavourite);
+
+    const toggleFavourite = () => {
+        if (isFavourite) {
+            onRemoveFav({ id })
+                .catch(() => toast.error("Failed to remove from favourites"));
+        } else {
+            onFavourite({ id, orgId })
+                .catch(() => toast.error("Failed to add to favourites"));;
+        }
+    };
 
   return (
     <Link href={`/lab/${id}`}>
@@ -65,8 +81,8 @@ const LabCard = ({
                 title={title}
                 authorLabel={authorLabel}
                 createdAtLabel={createdAtLabel}
-                onClick={() => {}}
-                disabled={false}
+                onClick={toggleFavourite}
+                disabled={pendingFavourite || pendingRemoveFav}
             />
         </div>
     </Link>

@@ -71,7 +71,7 @@ const LabList = ({ orgId, query }: LabListProps) => {
                     authorName={lab.authorName} 
                     createdAt={lab._creationTime} 
                     orgId={lab.orgId} 
-                    isFavourite={true}
+                    isFavourite={false}
                 />
             ))}
         </div>
