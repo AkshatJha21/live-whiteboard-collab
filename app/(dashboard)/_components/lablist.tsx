@@ -18,7 +18,10 @@ interface LabListProps {
 }
 
 const LabList = ({ orgId, query }: LabListProps) => {
-    const data = useQuery(api.labs.get, { orgId });
+    const data = useQuery(api.labs.get, {
+        orgId,
+        ...query,
+    });
 
     if (data === undefined) {
         return (
