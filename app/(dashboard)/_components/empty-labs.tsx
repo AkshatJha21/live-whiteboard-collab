@@ -7,10 +7,12 @@ import { api } from '@/convex/_generated/api';
 import { useOrganization } from '@clerk/nextjs';
 import { useApiMutation } from '@/hooks/use-api-mutation';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const EmptyLabs = () => {
     const { organization } = useOrganization();
     const { mutate, pending } = useApiMutation(api.lab.create);
+    const router = useRouter();
 
     const onClick = () => {
         if(!organization) return;
@@ -20,6 +22,7 @@ const EmptyLabs = () => {
             title: "Untitled"
         }).then((id) => {
             toast.success("Lab created");
+            router.push(`/lab/${id}`);
         }).catch(() => toast.error("Something went wrong"));
     }
 

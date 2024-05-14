@@ -4,6 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface NewLabButtonProps {
@@ -15,6 +16,7 @@ const NewLabButton = ({
     orgId,
     disabled
 }: NewLabButtonProps) => {
+    const router = useRouter();
     const { mutate, pending } = useApiMutation(api.lab.create);
 
     const onClick = () => {
@@ -23,7 +25,7 @@ const NewLabButton = ({
             title: "Untitled"
         }).then((id) => {
             toast.success("Lab created");
-
+            router.push(`/lab/${id}`);
         }).catch(() => toast.error("Something went wrong!"));
     }
 

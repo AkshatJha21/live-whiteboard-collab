@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query } from "./_generated/server";
+import { getAllOrThrow } from "convex-helpers/server/relationships";
 
 export const get = query({
     args: {
@@ -24,9 +25,14 @@ export const get = query({
                 .order("desc")
                 .collect();
 
-            const ids = favouriteLabs.map((lab) => lab._id);
+            const ids = favouriteLabs.map((lab) => lab.labId);
 
-            
+            const labs = await getAllOrThrow(ctx.db, ids);
+
+            return labs.map((lab) => ({
+                ...lab,
+                isFavourite: true
+            }));
         }
 
         const title = args.search as string;
