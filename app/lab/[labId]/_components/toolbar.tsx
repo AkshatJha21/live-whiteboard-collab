@@ -17,6 +17,14 @@ const ToolBar = () => {
                 Eraser
             </div>
         </div>
+        <div className='bg-white rounded-md p-1.5 flex flex-col shadow-md items-center'>
+            <div>
+                Undo
+            </div>
+            <div>
+                Redo
+            </div>
+        </div>
     </div>
   )
 }

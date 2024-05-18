@@ -1,8 +1,14 @@
 import Canvas from "./_components/canvas";
 
-const LabIdPage = () => {
+interface LabIdProps {
+    params :{
+        labId: string;
+    }
+};
+
+const LabIdPage = ({ params }: LabIdProps) => {
     return (
-        <Canvas />
+        <Canvas labId={params.labId}/>
     )
 };
 
