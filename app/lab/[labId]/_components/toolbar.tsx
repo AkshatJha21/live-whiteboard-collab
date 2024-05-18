@@ -14,6 +14,9 @@ const ToolBar = () => {
                 Circle  
             </div>
             <div>
+                Pen  
+            </div>
+            <div>
                 Eraser
             </div>
         </div>
