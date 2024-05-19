@@ -1,5 +1,6 @@
 import Canvas from "./_components/canvas";
 import { Room } from "@/components/room";
+import CanvasLoading from "./_components/canvas-loading";
 
 interface LabIdProps {
     params :{
@@ -9,7 +10,7 @@ interface LabIdProps {
 
 const LabIdPage = ({ params }: LabIdProps) => {
     return (
-        <Room roomId={params.labId} fallback={<div>Loading...</div>}>
+        <Room roomId={params.labId} fallback={<CanvasLoading />}>
             <Canvas labId={params.labId}/>
         </Room>
     )

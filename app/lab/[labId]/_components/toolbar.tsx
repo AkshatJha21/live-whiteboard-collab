@@ -32,4 +32,10 @@ const ToolBar = () => {
   )
 }
 
-export default ToolBar
+export default ToolBar;
+
+ToolBar.Skeleton = function ToolBarSkeleton() {
+    return (
+        <div className='absolute shadow-md rounded-md top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4 bg-white h-[360px] w-[52px]' />
+    )
+}
