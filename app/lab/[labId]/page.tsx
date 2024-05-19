@@ -1,4 +1,5 @@
 import Canvas from "./_components/canvas";
+import { Room } from "@/components/room";
 
 interface LabIdProps {
     params :{
@@ -8,7 +9,9 @@ interface LabIdProps {
 
 const LabIdPage = ({ params }: LabIdProps) => {
     return (
-        <Canvas labId={params.labId}/>
+        <Room roomId={params.labId} fallback={<div>Loading...</div>}>
+            <Canvas labId={params.labId}/>
+        </Room>
     )
 };
 
