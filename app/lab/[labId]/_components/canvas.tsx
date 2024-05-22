@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react'
-import Info from './info';
-import Participants from './participants';
-import ToolBar from './toolbar';
+import {Info} from './info';
+import {Participants} from './participants';
+import {ToolBar} from './toolbar';
 import { useSelf } from '@/liveblocks.config';
 
 interface CanvasProps {
