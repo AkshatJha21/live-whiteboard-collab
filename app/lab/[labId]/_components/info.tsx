@@ -7,6 +7,11 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Hint } from "@/components/hint";
+import { useRenameModal } from "@/store/use-rename-modal";
+import { Actions } from "@/components/actions";
+import { Menu } from "lucide-react";
 
 interface InfoProps {
   labId: string;
@@ -17,7 +22,17 @@ const font = Poppins({
     weight: ["600"],
 });
 
+const TabSeperator = () => {
+  return (
+    <div className="text-neutral-300 px-1.5">
+      |
+    </div>
+  )
+}
+
 export const Info = ({ labId }: InfoProps) => {
+  const { onOpen } = useRenameModal();
+  
   const data = useQuery(api.lab.get, {
     id: labId as Id<"labs">,
   });
@@ -31,19 +46,39 @@ export const Info = ({ labId }: InfoProps) => {
 
   return (
     <div className='absolute left-2 top-2 bg-white rounded-md px-1.5 flex items-center h-12 shadow-md'>
-        <Button variant={"lab"} className="px-2">
-          <Image 
-            src={'/logo.svg'}
-            alt="WhiteLab Logo"
-            height={40}
-            width={40}
-          />
-          <span className={cn(
-            "font-semibold text-xl ml-2 text-black", font.className
-          )}>
-            WhiteLab
-          </span>
-        </Button>
+        <Hint label="Go To Home" side="bottom" sideOffset={10}>
+          <Button asChild variant={"lab"} className="px-2">
+            <Link href='/'>
+              <Image 
+                src={'/logo.svg'}
+                alt="WhiteLab Logo"
+                height={40}
+                width={40}
+                />
+              <span className={cn(
+                "font-semibold text-xl ml-2 text-black", font.className
+              )}>
+                WhiteLab
+              </span>
+            </Link>
+          </Button>
+        </Hint>
+        <TabSeperator />
+        <Hint label="Rename Lab" side="bottom" sideOffset={10}>
+          <Button variant="lab" className="text-base font-normal px-2" onClick={() => onOpen(data._id, data.title)}>
+            {data.title}
+          </Button>
+        </Hint>
+        <TabSeperator />
+        <Actions id={data._id} title={data.title} side="bottom" sideOffset={10}>
+            <div>
+              <Hint label="Menu" side="bottom" sideOffset={10}>
+                <Button size="icon" variant="lab">
+                  <Menu />
+                </Button>
+              </Hint>
+            </div>
+        </Actions>
     </div>
   )
 }
