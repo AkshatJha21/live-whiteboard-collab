@@ -31,6 +31,13 @@ export const Participants = () => {
               fallback={currentUser.info?.name?.[0]}
             />
           )}
+
+          {hasMoreUsers && (
+            <UserAvatar 
+              name={`${users.length - MAX_SHOWN_USERS} more`}
+              fallback={`+${users.length - MAX_SHOWN_USERS}`}
+            />
+          )}
         </div>
     </div>
   )
