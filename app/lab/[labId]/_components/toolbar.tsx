@@ -37,7 +37,7 @@ export const ToolBar = () => {
                 isActive={false}
             />
             <ToolButton 
-                label='Draw'
+                label='Sketch'
                 icon={Pencil}
                 onClick={() => {}}
                 isActive={false}
