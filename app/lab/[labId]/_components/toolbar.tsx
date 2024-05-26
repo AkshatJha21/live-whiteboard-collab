@@ -26,7 +26,7 @@ export const ToolBar = ({
             <ToolButton 
                 label='Select'
                 icon={MousePointer2}
-                onClick={() => {}}
+                onClick={() => setCanvasState({ mode: CanvasMode.None, })}
                 isActive={
                     canvasState.mode === CanvasMode.None
                 }
@@ -34,8 +34,10 @@ export const ToolBar = ({
             <ToolButton 
                 label='Text'
                 icon={Type}
-                onClick={() => {}}
-                isActive={false}
+                onClick={() => setCanvasState({ mode: CanvasMode.Inserting, })}
+                isActive={
+                    canvasState.mode === CanvasMode.Inserting
+                }
             />
             <ToolButton 
                 label='Sticky Note'
