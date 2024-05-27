@@ -12,7 +12,12 @@ interface UserAvatarProps {
     borderColor?: string;
 };
 
-export const UserAvatar = ({ src, name, fallback, borderColor }: UserAvatarProps) => {
+export const UserAvatar = ({ 
+    src, 
+    name, 
+    fallback, 
+    borderColor 
+}: UserAvatarProps) => {
     return (
         <Hint label={name || "Guest"} side="bottom" sideOffset={18}>
             <Avatar className="h-8 w-8 border-2" style={{ borderColor }}>
