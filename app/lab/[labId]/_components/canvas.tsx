@@ -7,6 +7,7 @@ import {ToolBar} from './toolbar';
 import { useState } from 'react';
 import { CanvasMode, CanvasState } from '@/types/canvas';
 import { useCanRedo, useCanUndo, useHistory } from '@/liveblocks.config';
+import { CursorsPresence } from './cursors-presence';
 
 interface CanvasProps {
   labId: string;
@@ -33,6 +34,11 @@ const Canvas = ({ labId }: CanvasProps) => {
           undo={history.undo}
           redo={history.redo}
         />
+        <svg className='h-[100vh] w-[100vw]'>
+          <g>
+            <CursorsPresence />
+          </g>
+        </svg>
     </main>
   )
 }
