@@ -11,6 +11,7 @@ import { CursorsPresence } from './cursors-presence';
 import { pointerEventToCanvasPoint } from '@/lib/utils';
 import { nanoid } from "nanoid";
 import { LiveObject } from '@liveblocks/client';
+import { LayerPreview } from './layer-preview';
 
 const MAX_LAYERS = 100;
 
@@ -89,12 +90,6 @@ const Canvas = ({ labId }: CanvasProps) => {
   ) => {
     const point = pointerEventToCanvasPoint(e, camera);
 
-    console.log({
-      point,
-      mode: canvasState.mode,
-    });
-    
-
     if (canvasState.mode === CanvasMode.Inserting) {
       insertLayer(canvasState.layerType, point);
     } else {
@@ -123,10 +118,12 @@ const Canvas = ({ labId }: CanvasProps) => {
             transform: `translate(${camera.x}px, ${camera.y}px)`
           }}>
             {layerIds.map((layerId) => (
-              // <LayerPreview 
-              //   key={layerId}
-              //   id={layerId}
-              // />
+              <LayerPreview 
+                key={layerId}
+                id={layerId}
+                onLayerPointerDown={() => {}}
+                selectionColor="#000"
+              />
             ))}
             <CursorsPresence />
           </g>
