@@ -57,7 +57,9 @@ const Canvas = ({ labId }: CanvasProps) => {
           redo={history.redo}
         />
         <svg className='h-[100vh] w-[100vw]' onPointerLeave={onPointerLeave} onWheel={onWheel} onPointerMove={onPointerMove}>
-          <g>
+          <g style={{
+            transform: `translate(${camera.x}px, ${camera.y}px)`
+          }}>
             <CursorsPresence />
           </g>
         </svg>
