@@ -6,7 +6,7 @@ import {Participants} from './participants';
 import {ToolBar} from './toolbar';
 import { useState } from 'react';
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point } from '@/types/canvas';
-import { useCanRedo, useCanUndo, useHistory, useMutation, useStorage } from '@/liveblocks.config';
+import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from '@/liveblocks.config';
 import { CursorsPresence } from './cursors-presence';
 import { pointerEventToCanvasPoint } from '@/lib/utils';
 import { nanoid } from "nanoid";
@@ -100,6 +100,8 @@ const Canvas = ({ labId }: CanvasProps) => {
 
     history.resume();
   }, [camera, canvasState, history, insertLayer]);
+
+  const selections = useOthersMapped((other) => other.presence.selection);
 
   return (
     <main className='h-full w-full relative bg-neutral-100 touch-none'>
