@@ -12,6 +12,7 @@ import { connectionIdToColor, pointerEventToCanvasPoint } from '@/lib/utils';
 import { nanoid } from "nanoid";
 import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layer-preview';
+import { SelectionBox } from './selection-box';
 
 const MAX_LAYERS = 100;
 
@@ -163,6 +164,7 @@ const Canvas = ({ labId }: CanvasProps) => {
                 selectionColor={layerIdsToColorSelection[layerId]}
               />
             ))}
+            <SelectionBox onResizeHandlePointerDown={() => {}}/>
             <CursorsPresence />
           </g>
         </svg>
