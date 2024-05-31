@@ -5,7 +5,7 @@ import {Info} from './info';
 import {Participants} from './participants';
 import {ToolBar} from './toolbar';
 import { useState } from 'react';
-import { Camera, CanvasMode, CanvasState, Color, LayerType, Point } from '@/types/canvas';
+import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from '@/types/canvas';
 import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from '@/liveblocks.config';
 import { CursorsPresence } from './cursors-presence';
 import { connectionIdToColor, pointerEventToCanvasPoint } from '@/lib/utils';
@@ -64,6 +64,19 @@ const Canvas = ({ labId }: CanvasProps) => {
     setMyPresence({ selection: [layerId] }, { addToHistory: true });
     setCanvasState({ mode: CanvasMode.None });
   }, [prevColour]);
+
+  const onResizeHandlePointerDown = useCallback((corner: Side, initialBounds: XYWH) => {
+    console.log({
+      corner,
+      initialBounds
+    })
+    history.pause();
+    setCanvasState({
+      mode: CanvasMode.Resizing,
+      initialBounds,
+      corner
+    });
+  }, [history]);
 
   const onWheel = useCallback((e: React.WheelEvent) => {
     setCamera((camera) => ({
@@ -164,7 +177,7 @@ const Canvas = ({ labId }: CanvasProps) => {
                 selectionColor={layerIdsToColorSelection[layerId]}
               />
             ))}
-            <SelectionBox onResizeHandlePointerDown={() => {}}/>
+            <SelectionBox onResizeHandlePointerDown={onResizeHandlePointerDown}/>
             <CursorsPresence />
           </g>
         </svg>
