@@ -65,11 +65,17 @@ const Canvas = ({ labId }: CanvasProps) => {
     setCanvasState({ mode: CanvasMode.None });
   }, [prevColour]);
 
+  const resizeSelectedLayer = useMutation((
+    { storage, self }, 
+    point: Point
+  ) => {
+    if (canvasState.mode !== CanvasMode.Resizing) {
+      return;
+    }
+    
+  }, []);
+
   const onResizeHandlePointerDown = useCallback((corner: Side, initialBounds: XYWH) => {
-    console.log({
-      corner,
-      initialBounds
-    })
     history.pause();
     setCanvasState({
       mode: CanvasMode.Resizing,
@@ -89,8 +95,12 @@ const Canvas = ({ labId }: CanvasProps) => {
     e.preventDefault();
     const current = pointerEventToCanvasPoint(e, camera);
 
+    if (canvasState.mode === CanvasMode.Resizing) {
+      console.log("Resizing");
+    }
+
     setMyPresence({ cursor: current });
-  }, []);
+  }, [canvasState]);
 
   const onPointerLeave = useMutation((
     { setMyPresence }
