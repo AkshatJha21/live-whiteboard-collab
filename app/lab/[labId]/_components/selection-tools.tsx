@@ -5,6 +5,7 @@ import { useMutation, useSelf } from "@/liveblocks.config";
 import { Camera, Color } from "@/types/canvas";
 import { memo } from "react";
 import { ColorPicker } from "./color-picker";
+import { useDeleteLayers } from "@/hooks/use-delete-layers";
 
 interface SelectionToolsProps {
     camera: Camera,
@@ -25,6 +26,8 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
             liveLayers.get(id)?.set("fill", fill);
         })
     }, [selection, setLastUsedColor]);
+
+    const deleteLayers = useDeleteLayers();
 
     const selectionBounds = useSelectionBounds();
 
