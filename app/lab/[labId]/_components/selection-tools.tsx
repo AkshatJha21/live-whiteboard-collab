@@ -102,7 +102,7 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
             <div className="flex items-center pl-2 ml-2 border-l border-neutral-200">
                 <Hint label="Delete">
                     <Button size={"icon"} variant={"lab"} onClick={deleteLayers}>
-                        <Trash2 className=""/>
+                        <Trash2 />
                     </Button>
                 </Hint>
             </div>

@@ -141,6 +141,17 @@ const Canvas = ({ labId }: CanvasProps) => {
     }
   }, []);
 
+  const startDrawing = useMutation((
+    { setMyPresence },
+    point: Point,
+    pressure: number
+  ) => {
+    setMyPresence({
+      pencilDraft: [[point.x, point.y, pressure]],
+      penColor: prevColour
+    })
+  }, [prevColour]);
+
   const resizeSelectedLayer = useMutation((
     { storage, self }, 
     point: Point
@@ -206,8 +217,12 @@ const Canvas = ({ labId }: CanvasProps) => {
       return;
     }
 
+    if (canvasState.mode === CanvasMode.Pencil) {
+      startDrawing(point, e.pressure);
+    }
+
     setCanvasState({ origin: point, mode: CanvasMode.Pressing });
-  }, [camera, canvasState.mode, setCanvasState]);
+  }, [camera, canvasState.mode, setCanvasState, startDrawing]);
 
   const onPointerUp = useMutation((
     {},
