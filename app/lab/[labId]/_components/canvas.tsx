@@ -272,6 +272,7 @@ const Canvas = ({ labId }: CanvasProps) => {
 
     if (canvasState.mode === CanvasMode.Pencil) {
       startDrawing(point, e.pressure);
+      return;
     }
 
     setCanvasState({ origin: point, mode: CanvasMode.Pressing });
