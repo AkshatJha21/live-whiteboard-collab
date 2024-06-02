@@ -6,15 +6,16 @@ import {Participants} from './participants';
 import {ToolBar} from './toolbar';
 import { useState } from 'react';
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from '@/types/canvas';
-import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from '@/liveblocks.config';
+import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useSelf, useStorage } from '@/liveblocks.config';
 import { CursorsPresence } from './cursors-presence';
-import { connectionIdToColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from '@/lib/utils';
+import { colorToCSS, connectionIdToColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from '@/lib/utils';
 import { nanoid } from "nanoid";
 import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layer-preview';
 import { SelectionBox } from './selection-box';
 import { SelectionTools } from './selection-tools';
 import { Pencil } from 'lucide-react';
+import { Path } from './path';
 
 const MAX_LAYERS = 100;
 
@@ -24,6 +25,7 @@ interface CanvasProps {
 
 const Canvas = ({ labId }: CanvasProps) => {
   const layerIds = useStorage((root) => root.layerIds);
+  const pencilDraft = useSelf((me) => me.presence.pencilDraft);
   
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None
@@ -377,6 +379,14 @@ const Canvas = ({ labId }: CanvasProps) => {
               />
             )}
             <CursorsPresence />
+            {pencilDraft != null && pencilDraft.length > 0 && (
+              <Path 
+                points={pencilDraft}
+                fill={colorToCSS(prevColour)}
+                x={0}
+                y={0}
+              />
+            )}
           </g>
         </svg>
     </main>
