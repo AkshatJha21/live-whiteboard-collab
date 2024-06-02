@@ -18,6 +18,44 @@ interface SelectionToolsProps {
 export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionToolsProps) => {
     const selection = useSelf((me) => me.presence.selection);
 
+    const moveToFront = useMutation((
+        { storage }
+    ) => {
+        const liveLayerIds = storage.get("layerIds");
+        const indices: number[] = [];
+
+        const arr = liveLayerIds.toArray();
+
+        for (let i = 0; i < arr.length; i++) {
+            if (selection.includes(arr[i])) {
+                indices.push(i);
+            }
+        }
+
+        for (let i = indices.length - 1; i >= 0; i--) {
+            liveLayerIds.move(indices[i], arr.length - 1 - (indices.length - 1 - i));
+        }
+    }, [selection]);
+
+    const moveToBack = useMutation((
+        { storage }
+    ) => {
+        const liveLayerIds = storage.get("layerIds");
+        const indices: number[] = [];
+
+        const arr = liveLayerIds.toArray();
+
+        for (let i = 0; i < arr.length; i++) {
+            if (selection.includes(arr[i])) {
+                indices.push(i);
+            }
+        }
+
+        for (let i = 0; i < indices.length; i++) {
+            liveLayerIds.move(indices[i], i);
+        }
+    }, [selection]);
+
     const setFill = useMutation((
         { storage },
         fill: Color,
@@ -51,12 +89,12 @@ export const SelectionTools = memo(({ camera, setLastUsedColor }: SelectionTools
             <ColorPicker onChange={setFill}/>
             <div className="flex flex-col gap-y-0.5">
                 <Hint label="Bring to Front" side="top">
-                    <Button size={"icon"} variant={"lab"}>
+                    <Button onClick={moveToFront} size={"icon"} variant={"lab"}>
                         <BringToFront />
                     </Button>
                 </Hint>
                 <Hint label="Send to Back" side="bottom">
-                    <Button size={"icon"} variant={"lab"}>
+                    <Button onClick={moveToBack} size={"icon"} variant={"lab"}>
                         <SendToBack />
                     </Button>
                 </Hint>
