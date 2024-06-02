@@ -241,7 +241,7 @@ const Canvas = ({ labId }: CanvasProps) => {
   const onPointerMove = useMutation(({ setMyPresence }, e: React.PointerEvent) => {
     e.preventDefault();
     const current = pointerEventToCanvasPoint(e, camera);
-
+    
     if (canvasState.mode === CanvasMode.Pressing) {
       startMultiselection(current, canvasState.origin);
     } else if (canvasState.mode === CanvasMode.SelectionNet) {
@@ -249,10 +249,10 @@ const Canvas = ({ labId }: CanvasProps) => {
     } else if (canvasState.mode === CanvasMode.Translating) {
       translateSelectedLayers(current);
     } else if (canvasState.mode === CanvasMode.Resizing) {
+      resizeSelectedLayer(current);
     } else if (canvasState.mode === CanvasMode.Pencil) {
       continueDrawing(current, e);
     }
-      resizeSelectedLayer(current);
 
     setMyPresence({ cursor: current });
   }, [canvasState, resizeSelectedLayer, startMultiselection, updateSelectionNet, camera, translateSelectedLayers, continueDrawing]);
