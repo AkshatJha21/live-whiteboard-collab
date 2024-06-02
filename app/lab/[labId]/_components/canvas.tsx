@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from '@/types/canvas';
 import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from '@/liveblocks.config';
 import { CursorsPresence } from './cursors-presence';
-import { connectionIdToColor, pointerEventToCanvasPoint, resizeBounds } from '@/lib/utils';
+import { connectionIdToColor, findIntersectingLayersWithRectangle, pointerEventToCanvasPoint, resizeBounds } from '@/lib/utils';
 import { nanoid } from "nanoid";
 import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layer-preview';
@@ -115,8 +115,16 @@ const Canvas = ({ labId }: CanvasProps) => {
       current
     });
 
+    const ids = findIntersectingLayersWithRectangle(
+      layerIds,
+      layers,
+      origin,
+      current
+    );
 
-  }, []);
+    setMyPresence({ selection: ids });
+
+  }, [layerIds]);
 
   const startMultiselection = useCallback((
     current: Point,
