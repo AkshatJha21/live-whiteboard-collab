@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useEffect } from 'react'
 import {Info} from './info';
 import {Participants} from './participants';
 import {ToolBar} from './toolbar';
@@ -16,6 +16,8 @@ import { SelectionBox } from './selection-box';
 import { SelectionTools } from './selection-tools';
 import { Pencil } from 'lucide-react';
 import { Path } from './path';
+import { useDisableScrollBounce } from '@/hooks/use-disable-scroll-bounce';
+import { useDeleteLayers } from '@/hooks/use-delete-layers';
 
 const MAX_LAYERS = 100;
 
@@ -37,6 +39,7 @@ const Canvas = ({ labId }: CanvasProps) => {
     b: 0
   });
 
+  useDisableScrollBounce();
   const history = useHistory();
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
@@ -340,6 +343,31 @@ const Canvas = ({ labId }: CanvasProps) => {
 
     return layerIdsToColorSelection;
   }, [selections]);
+
+  const deleteLayers = useDeleteLayers();
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      switch (e.key) {
+        case "z": {
+          if (e.ctrlKey || e.metaKey) {
+            if (e.shiftKey) {
+              history.redo();
+            } else {
+              history.undo();
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    }
+  }, [deleteLayers, history]);
 
   return (
     <main className='h-full w-full relative bg-neutral-100 touch-none'>
