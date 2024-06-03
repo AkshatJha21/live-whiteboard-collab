@@ -24,5 +24,5 @@ Deployed at: https://live-whiteboard-collab.vercel.app
 
 ### Screenshots
 
-!(Home Page[home.png])
-!(Lab Page[lab.png])
+![Home Page](home.png)
+![Lab Page](lab.png)
